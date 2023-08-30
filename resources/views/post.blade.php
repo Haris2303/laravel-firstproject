@@ -3,7 +3,7 @@
 @section('main')
     <article>
         <h2>{{ $post->title }}</h2>
-        <h6>By. {{ $post->author }}</h6>
+        <h6>By. Author in <a href="/categories/{{ $post->category->slug }}">{{ $post->category->name }}</a></h6>
         {!! $post->body !!}
     </article>
 
