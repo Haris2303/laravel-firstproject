@@ -1,12 +1,28 @@
 @extends('layouts.main')
 
 @section('main')
-    <article>
-        <h2>{{ $post->title }}</h2>
-        <h6>By. <a href="/authors/{{ $post->author->id }}">{{ $post->author->name }}</a> in <a
-                href="/categories/{{ $post->category->slug }}">{{ $post->category->name }}</a></h6>
-        {!! $post->body !!}
-    </article>
-
-    <a href="/posts">Back to blog</a>
+    <div class="row justify-content-center mb-5">
+        <div class="col-10">
+            <article>
+                <h1 class="card-title mb-3">{{ $post->title }}</h1>
+                <div class="mb-2">
+                    <h6 class="text-secondary d-inline me-2">By. <a href="/authors/{{ $post->author->username }}"
+                            class="text-decoration-none text-primary">{{ $post->author->name }}</a>
+                    </h6>
+                    <small class="text-body-secondary me-2">{{ $post->created_at->diffForHumans() }}</small>
+                    <small class="text-body-secondary d-block">Category
+                        <a href="/categories/{{ $post->category->slug }}" class="text-decoration-none text-primary">
+                            {{ $post->category->name }}
+                        </a>
+                    </small>
+                </div>
+                <div class="mb-3">
+                    <img src="https://source.unsplash.com/random/1200x500?{{ $post->category->name }}"
+                        class="img-fluid mb-3" alt="{{ $post->category->name }}">
+                    {!! $post->body !!}
+                </div>
+            </article>
+            <a href="/posts">Back to blog</a>
+        </div>
+    </div>
 @endsection
