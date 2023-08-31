@@ -11,7 +11,7 @@
                     </h6>
                     <small class="text-body-secondary me-2">{{ $post->created_at->diffForHumans() }}</small>
                     <small class="text-body-secondary d-block">Category
-                        <a href="/categories/{{ $post->category->slug }}" class="text-decoration-none text-primary">
+                        <a href="/posts?category={{ $post->category->slug }}" class="text-decoration-none text-primary">
                             {{ $post->category->name }}
                         </a>
                     </small>
