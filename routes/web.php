@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\PostController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +29,7 @@ Route::get('/about', [AboutController::class, 'index']);
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 
-Route::get('/categories', function () {
-    return view('categories', [
-        "title" => "Categories",
-        "active" => "Category",
-        "categories" => Category::all()
-    ]);
-});
+Route::get('/categories', [CategoryController::class, 'index']);
+
+// login
+Route::get('/login', [LoginController::class, 'index']);
