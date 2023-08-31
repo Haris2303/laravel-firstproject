@@ -6,7 +6,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -20,6 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -47,5 +51,24 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public static function add(Request $request): User|RedirectResponse
+    {
+        // check konfirmasi password
+        if ($request['password'] != $request['password2']) {
+            return redirect('/register');
+        }
+
+        $validateData = $request->validate([
+            'name' => ['required', 'max:100'],
+            'username' => ['required', 'min:3', 'max:100', 'unique:users'],
+            'email' => ['required', 'max:100', 'email:dns'],
+            'password' => ['required', 'min:3']
+        ]);
+
+        $validateData['password'] = Hash::make($validateData['password']);
+
+        return static::create($validateData);
     }
 }
