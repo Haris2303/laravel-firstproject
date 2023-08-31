@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-success navbar-dark">
     <div class="container">
-        <a class="navbar-brand" href="/">FisPro Blog</a>
+        <a class="navbar-brand" href="/">FisPro <span class="text-black-50">Blog</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,6 +26,10 @@
                 <li class="nav-item">
                     <a href="/login" class="nav-link {{ $active === 'login' ? 'active' : '' }}">
                         <i class="bi bi-box-arrow-in-right"></i> Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/register" class="nav-link {{ $active === 'register' ? 'active' : '' }}">
+                        <i class="bi bi-box-arrow-in-right"></i> Register</a>
                 </li>
             </ul>
         </div>
