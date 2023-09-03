@@ -23,10 +23,18 @@
 
     @if ($posts->count())
         {{-- hero post --}}
-        <div class="card mb-3 text-center">
+        <div class="card mb-3 text-center shadow">
             <a href="/posts/{{ $posts[0]->slug }}">
-                <img src="https://source.unsplash.com/random/1200x500?{{ $posts[0]->category->name }}" class="card-img-top"
-                    alt="{{ $posts[0]->category->name }}">
+                @php
+                    if ($posts[0]->image) {
+                        $src = '/storage/' . $posts[0]->image;
+                    } else {
+                        $src = 'https://source.unsplash.com/random/1200x500?' . $posts[0]->category->name;
+                    }
+                @endphp
+                <div style="max-height: 350px; overflow:hidden">
+                    <img src="{{ $src }}" class="img-fluid" alt="{{ $posts[0]->category->name }}">
+                </div>
             </a>
 
             <div class="card-body">
@@ -58,7 +66,7 @@
             @foreach ($posts->skip(1) as $post)
                 <div class="col-md-4 mb-3">
                     <article>
-                        <div class="card">
+                        <div class="card shadow">
                             <a href="/posts?category={{ $post->category->slug }}">
                                 <span class="position-absolute text-white px-3 py-1"
                                     style="background-color: rgba(0, 0, 0, 0.6)">
@@ -66,8 +74,14 @@
                                 </span>
                             </a>
                             <a href="/posts/{{ $post->slug }}">
-                                <img src="https://source.unsplash.com/random/500x350?{{ $post->category->name }}"
-                                    class="card-img-top" alt="{{ $post->category->name }}">
+                                @php
+                                    if ($post->image) {
+                                        $src = '/storage/' . $post->image;
+                                    } else {
+                                        $src = 'https://source.unsplash.com/random/1200x800?' . $post->category->name;
+                                    }
+                                @endphp
+                                <img src="{{ $src }}" class="card-img-top" alt="{{ $post->category->name }}">
                             </a>
                             <div class="card-body">
                                 <a href="/posts/{{ $post->slug }}" class="text-decoration-none text-dark">

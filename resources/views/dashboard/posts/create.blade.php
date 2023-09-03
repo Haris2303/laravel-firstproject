@@ -4,7 +4,7 @@
     <h1 class="h2">Create New Post</h1>
 
     <div class="col-lg-8 mt-3 mb-5">
-        <form action="/dashboard/posts" method="post">
+        <form action="/dashboard/posts" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label text-capitalize">title</label>
@@ -39,7 +39,17 @@
                         @endif
                     @endforeach
                 </select>
-                @error('slug')
+                @error('category_id')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="input-group mb-3">
+                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
+                    id="image">
+                <label class="input-group-text" for="image">Upload Image</label>
+                @error('image')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -50,7 +60,7 @@
                 <input id="body" type="hidden" name="body" class="@error('body') is-invalid @enderror"
                     value="{{ old('body') }}" required>
                 <trix-editor input="body"></trix-editor>
-                @error('slug')
+                @error('body')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>

@@ -27,8 +27,16 @@
                     </small>
                 </div>
                 <div class="mb-3">
-                    <img src="https://source.unsplash.com/random/1200x500?{{ $post->category->name }}"
-                        class="img-fluid mb-3" alt="{{ $post->category->name }}">
+                    @php
+                        if ($post->image) {
+                            $src = '/storage/' . $post->image;
+                        } else {
+                            $src = 'https://source.unsplash.com/random/1200x500?' . $post->category->name;
+                        }
+                    @endphp
+                    <div style="max-height: 400px; overflow:hidden">
+                        <img src="{{ $src }}" class="img-fluid mb-3" alt="{{ $post->category->name }}">
+                    </div>
                     {!! $post->body !!}
                 </div>
             </article>
