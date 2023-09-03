@@ -30,10 +30,15 @@
                         <td class="d-flex gap-2">
                             <a href="/dashboard/posts/{{ $post->slug }}" class="badge bg-info"><i
                                     class="bi bi-eye-fill h6"></i></a>
-                            <a href="/dashboard/posts/" class="badge bg-success">
+                            <a href="/dashboard/posts/{{ $post->slug }}/edit" class="badge bg-success">
                                 <i class="bi bi-pencil-fill h6"></i></a>
-                            <a href="/dashboard/posts/" class="badge bg-danger">
-                                <i class="bi bi-x-circle-fill h6"></i></a>
+                            <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
+                                @method('delete')
+                                @csrf
+                                <button type="submit" class="badge bg-danger border-0">
+                                    <i class="bi bi-x-circle-fill h6"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

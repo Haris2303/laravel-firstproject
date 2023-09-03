@@ -12,9 +12,13 @@
                     <a href="/dashboard/posts" class="btn btn-success">
                         <i class="bi bi-pencil-fill"></i> Edit
                     </a>
-                    <a href="/dashboard/posts" class="btn btn-danger">
-                        <i class="bi bi-x-circle-fill"></i> Delete
-                    </a>
+                    <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
+                        @method('delete')
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-x-circle-fill"></i> Delete
+                        </button>
+                    </form>
 
                     <small class="text-body-secondary d-block mt-2">Category
                         <a href="/posts?category={{ $post->category->slug }}" class="text-decoration-none text-primary">
