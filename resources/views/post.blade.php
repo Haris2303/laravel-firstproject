@@ -6,7 +6,7 @@
             <article>
                 <h1 class="card-title mb-3">{{ $post->title }}</h1>
                 <div class="mb-2">
-                    <h6 class="text-secondary d-inline me-2">By. <a href="/authors/{{ $post->author->username }}"
+                    <h6 class="text-secondary d-inline me-2">By. <a href="/posts?author={{ $post->author->username }}"
                             class="text-decoration-none text-primary">{{ $post->author->name }}</a>
                     </h6>
                     <small class="text-body-secondary me-2">{{ $post->created_at->diffForHumans() }}</small>

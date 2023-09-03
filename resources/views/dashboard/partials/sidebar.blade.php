@@ -10,9 +10,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('dashboard/posts') ? 'active' : '' }}" href="/dashboard/posts">
+                    <a class="nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}" href="/dashboard/posts">
                         <i class="bi bi-file-earmark-text-fill"></i>
                         My Posts
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="bi bi-layer-backward"></i>
+                        Back to Web
                     </a>
                 </li>
             </ul>
