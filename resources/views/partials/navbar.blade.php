@@ -8,29 +8,50 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title === 'Home' ? 'active' : '' }}" aria-current="page"
+                    <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page"
                         href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $title === 'About' ? 'active' : '' }}" href="/about">About</a>
+                    <a class="nav-link {{ Request::is('/about') ? 'active' : '' }}" href="/about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active === 'Posts' ? 'active' : '' }}" href="/posts">Blog</a>
+                    <a class="nav-link {{ Request::is('/posts') ? 'active' : '' }}" href="/posts">Blog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active === 'Category' ? 'active' : '' }}" href="/categories">Category</a>
+                    <a class="nav-link {{ Request::is('/categories') ? 'active' : '' }}" href="/categories">Category</a>
                 </li>
             </ul>
 
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a href="/login" class="nav-link {{ $active === 'login' ? 'active' : '' }}">
-                        <i class="bi bi-box-arrow-in-right"></i> Login</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/register" class="nav-link {{ $active === 'register' ? 'active' : '' }}">
-                        <i class="bi bi-box-arrow-in-right"></i> Register</a>
-                </li>
+                @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Welcome, {{ auth()->user()->name }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/dashboard">Back to Dashboard</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form action="/logout" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a href="/login" class="nav-link {{ Request::is('login') ? 'active' : '' }}">
+                            <i class="bi bi-box-arrow-in-right"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/register" class="nav-link {{ Request::is('register') ? 'active' : '' }}">
+                            <i class="bi bi-box-arrow-in-right"></i> Register</a>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>
