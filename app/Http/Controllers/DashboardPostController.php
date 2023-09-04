@@ -7,6 +7,9 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardPostController extends Controller
 {
@@ -39,7 +42,7 @@ class DashboardPostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validateData = $request->validate([
             'title' => ['required', 'max:255'],
@@ -91,12 +94,13 @@ class DashboardPostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): RedirectResponse
     {
         // validation rules
         $rules = [
             'title' => ['required', 'max:255'],
             'category_id' => 'required',
+            'image' => ['image', 'file', 'max:1024'],
             'body' => 'required'
         ];
 
@@ -109,6 +113,15 @@ class DashboardPostController extends Controller
         $validateData = $request->validate($rules);
         $validateData['excerpt'] = Str::limit(strip_tags($request->body), 250, '...');
 
+        // check image
+        if ($request->file('image')) {
+            // if image is changed
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validateData['image'] = $request->file('image')->store('post-images');
+        }
+
         // update data
         Post::where('slug', $post->slug)->update($validateData);
 
@@ -118,15 +131,20 @@ class DashboardPostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
+        if ($post->image) {
+            // delete image in storage
+            Storage::delete($post->image);
+        }
+
         // delete data
         Post::destroy($post->id);
 
         return redirect('/dashboard/posts')->with('success', 'Post has been deleted!');
     }
 
-    public function checkSlug(Request $request)
+    public function checkSlug(Request $request): JsonResponse
     {
         $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
         return response()->json(['slug' => $slug]);

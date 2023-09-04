@@ -1,10 +1,10 @@
 @extends('dashboard.layouts.main')
 
 @section('main')
-    <h1 class="h2">Create New Post</h1>
+    <h1 class="h2">Edit Post</h1>
 
     <div class="col-lg-8 mt-3 mb-5">
-        <form action="/dashboard/posts/{{ $post->slug }}" method="post">
+        <form action="/dashboard/posts/{{ $post->slug }}" method="post" enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="mb-3">
@@ -46,6 +46,22 @@
                     </div>
                 @enderror
             </div>
+            <div class="input-group mb-3">
+                <input type="hidden" name="oldImage" value="{{ $post->image }}">
+                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
+                    id="image" onchange="previewImage()">
+                @if ($post->image)
+                    <img src="/storage/{{ $post->image }}" alt="Image" class="img-preview img-fluid col-sm-4">
+                @else
+                    <img class="img-preview img-fluid col-sm-4" alt="Preview Image">
+                @endif
+                <label class="input-group-text" for="image">Upload Image</label>
+                @error('image')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
             <div class="mb-3">
                 <label for="body" class="form-label text-capitalize">Body</label>
                 <input id="body" type="hidden" name="body" class="@error('body') is-invalid @enderror"
@@ -70,5 +86,19 @@
                 .then(response => response.json())
                 .then(data => slug.value = data.slug)
         })
+
+        const previewImage = () => {
+            const image = document.querySelector('#image');
+            const img_preview = document.querySelector('.img-preview');
+
+            img_preview.style.display = 'block';
+
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(image.files[0]);
+
+            fileReader.onload = function(oFREvent) {
+                img_preview.src = oFREvent.target.result;
+            }
+        }
     </script>
 @endsection

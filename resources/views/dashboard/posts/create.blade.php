@@ -47,7 +47,8 @@
             </div>
             <div class="input-group mb-3">
                 <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
-                    id="image">
+                    id="image" onchange="previewImage()">
+                <img class="img-preview img-fluid col-sm-4" alt="Preview Image">
                 <label class="input-group-text" for="image">Upload Image</label>
                 @error('image')
                     <div class="invalid-feedback">
@@ -79,5 +80,19 @@
                 .then(response => response.json())
                 .then(data => slug.value = data.slug)
         })
+
+        const previewImage = () => {
+            const image = document.querySelector('#image');
+            const img_preview = document.querySelector('.img-preview');
+
+            img_preview.style.display = 'block';
+
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(image.files[0]);
+
+            fileReader.onload = function(oFREvent) {
+                img_preview.src = oFREvent.target.result;
+            }
+        }
     </script>
 @endsection
