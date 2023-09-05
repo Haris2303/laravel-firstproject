@@ -15,6 +15,15 @@
                         My Posts
                     </a>
                 </li>
+                @can('admin')
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('dashboard/categories*') ? 'active' : '' }}"
+                            href="/dashboard/categories">
+                            <i class="bi bi-bookmarks-fill"></i>
+                            Categories
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a class="nav-link" href="/">
                         <i class="bi bi-layer-backward"></i>
